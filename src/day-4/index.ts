@@ -126,8 +126,12 @@ function solveB(activityLogs: GuardSleepLog[]) {
   return highestSleepMinute * Number(highestSleepCountGuardId);
 }
 
-const allActs = buildActivities(inputs);
-const guardSleepLogs = buildSleepLogs(allActs);
+function main() {
+  const allActs = buildActivities(inputs);
+  const guardSleepLogs = buildSleepLogs(allActs);
 
-console.log('result1: ', solveA(guardSleepLogs));
-console.log('result2: ', solveB(guardSleepLogs));
+  console.log('result1: ', solveA(guardSleepLogs));
+  console.log('result2: ', solveB(guardSleepLogs));
+}
+
+main();
