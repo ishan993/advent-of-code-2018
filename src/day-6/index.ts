@@ -39,15 +39,23 @@ function solveA(coordinates: Coordinate[]) {
 }
 
 function findClosestCoordinate(location: Location, coordinates: Coordinate[]) {
-  const result: { coord: string, dist: number }[] = [];
+  let minDist = Number.POSITIVE_INFINITY;
+  let minDistCoords = null;
+  let secondMinDist = Number.POSITIVE_INFINITY;
+
   for (const coordinate of coordinates) {
     const { x, y } = coordinate;
     const dist = Math.abs(location.x - x) + Math.abs(location.y - y);
-    result.push({ coord: `${x}-${y}`, dist });
+
+    if (dist === minDist) {
+      secondMinDist = dist;
+    } else if (dist < minDist) {
+      minDist = dist;
+      minDistCoords = coordinate;
+    }
   }
 
-  const minDist = _.minBy(result, 'dist')!;
-  return result.filter(r => r.dist === minDist.dist).length === 1 ? minDist.coord : 'X';
+  return minDist === secondMinDist ? 'X' : `${minDistCoords!.x}-${minDistCoords!.y}`;
 }
 
 function solveB(coordinates: Coordinate[]) {
