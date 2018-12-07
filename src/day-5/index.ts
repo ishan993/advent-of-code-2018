@@ -37,7 +37,10 @@ function solveB(str: string) {
 
 function main() {
   const input = fs.readFileSync(path.join(__dirname, 'input.txt'), 'utf8').trim();
+  const ts = Date.now();
   console.log('result1: ', solveA(input));
+  console.log()
+  console.log(`in ${Date.now() - ts} ms`);
   console.log('result2: ', solveB(input));
 }
 
