@@ -19,9 +19,10 @@ function solveA(coordinates: Coordinate[]) {
   const recordKeeper: Record<string, number> = {};
   for (let x = 0; x <= limit; x++) {
     for (let y = 0; y <= limit; y++) {
-        const point = findClosestCoordinate({ x, y }, coordinates);
+      const point = findClosestCoordinate({x, y}, coordinates);
       if (x === 0 || x === limit || y === 0 || y === limit) {
         blacklisted.add(point);
+        delete recordKeeper[point];
       } else if (point !== 'X') {
         recordKeeper[point] = (recordKeeper[point] || 0) + 1;
       }
@@ -49,6 +50,27 @@ function findClosestCoordinate(location: Location, coordinates: Coordinate[]) {
   return result.filter(r => r.dist === minDist.dist).length === 1 ? minDist.coord : 'X';
 }
 
+function solveB(coordinates: Coordinate[]) {
+  const xMax = _.maxBy(coordinates, 'x')!.x;
+  const yMax = _.maxBy(coordinates, 'y')!.y;
+  const result = new Set();
+
+  const limit = Math.max(xMax, yMax);
+  const maxDistance = 10000;
+  for (let x = 0; x <= limit; x++) {
+    for (let y = 0; y <= limit; y++) {
+      let totalDist = 0;
+      for (const coord of coordinates) {
+        const { x: xCoord, y: yCoord } = coord;
+        const dist = Math.abs(x - xCoord) + Math.abs(y - yCoord);
+        totalDist += dist;
+      }
+      if (totalDist < maxDistance) result.add(`${x}-${y}`);
+    }
+  }
+
+  return result.size;
+}
 
 function main() {
   const filePath = path.join(__dirname, 'input.txt');
@@ -63,6 +85,7 @@ function main() {
 
   const ts1 = Date.now();
   console.log(`result1: ${ solveA(inputs)} in ${Date.now() - ts1} ms`);
+  console.log(`result1: ${ solveB(inputs)} in ${Date.now() - ts1} ms`);
 }
 
 main();
