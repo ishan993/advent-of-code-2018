@@ -53,7 +53,7 @@ function findClosestCoordinate(location: Location, coordinates: Coordinate[]) {
 function solveB(coordinates: Coordinate[]) {
   const xMax = _.maxBy(coordinates, 'x')!.x;
   const yMax = _.maxBy(coordinates, 'y')!.y;
-  const result = new Set();
+  let count = 0;
 
   const limit = Math.max(xMax, yMax);
   const maxDistance = 10000;
@@ -65,11 +65,11 @@ function solveB(coordinates: Coordinate[]) {
         const dist = Math.abs(x - xCoord) + Math.abs(y - yCoord);
         totalDist += dist;
       }
-      if (totalDist < maxDistance) result.add(`${x}-${y}`);
+      if (totalDist < maxDistance) count++;
     }
   }
 
-  return result.size;
+  return count;
 }
 
 function main() {
@@ -85,7 +85,8 @@ function main() {
 
   const ts1 = Date.now();
   console.log(`result1: ${ solveA(inputs)} in ${Date.now() - ts1} ms`);
-  console.log(`result1: ${ solveB(inputs)} in ${Date.now() - ts1} ms`);
+  const ts2 = Date.now();
+  console.log(`result1: ${ solveB(inputs)} in ${Date.now() - ts2} ms`);
 }
 
 main();
