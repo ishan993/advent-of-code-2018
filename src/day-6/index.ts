@@ -29,13 +29,13 @@ function solveA(coordinates: Coordinate[]) {
     }
   }
 
-  return Object.keys(recordKeeper)
-    .reduce((acc: number[], c: string) => {
-      if (blacklisted.has(c)) return acc;
-      acc.push(recordKeeper[c]);
+  let highest = -1;
+  for (const key in recordKeeper) {
+    const val = recordKeeper[key];
+    if (val > highest && !blacklisted.has(key)) highest = val;
+  }
 
-      return acc;
-  }, []).sort((a, b) => b - a)[0];
+  return highest;
 }
 
 function findClosestCoordinate(location: Location, coordinates: Coordinate[]) {
@@ -84,17 +84,14 @@ function main() {
   const filePath = path.join(__dirname, 'input.txt');
   const inputs = fs.readFileSync(filePath, 'utf8')
     .split('\n')
-    .filter(r => r)
     .map(i => {
       const [ x, y ] = i.split(', ');
 
       return { x: Number(x), y: Number(y) };
     });
 
-  const ts1 = Date.now();
-  console.log(`result1: ${ solveA(inputs)} in ${Date.now() - ts1} ms`);
-  const ts2 = Date.now();
-  console.log(`result1: ${ solveB(inputs)} in ${Date.now() - ts2} ms`);
+  console.log(`result1: ${ solveA(inputs)}`);
+  console.log(`result1: ${ solveB(inputs)}`);
 }
 
 main();
