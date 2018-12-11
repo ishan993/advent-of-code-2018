@@ -19,14 +19,14 @@ function solveA(inputs: number[]) {
   return childSum + rootCount;
 }
 
-function solveB(inputs: number[], level: number = 0) {
+function solveB(inputs: number[]) {
   const childNodesCount = inputs.shift() || 0;
   const metadataCount = inputs.shift() || 0;
   const childResultMap: Record<string, number> = {};
   let childSum = 0;
 
   for (let i = 0; i < childNodesCount; i++) {
-    const thisChildSum = solveB(inputs, level + 1);
+    const thisChildSum = solveB(inputs);
     childResultMap[i] = thisChildSum;
     childSum += thisChildSum;
   }
