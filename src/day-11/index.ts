@@ -61,14 +61,14 @@ function solveB(serialNumber: number) {
   for (let col = 1; col <= 300; col++) {
     for (let row = 1; row <= 300; row++) {
       let sum = 0;
-      for (let size = 0; size <= 300; size++) {
+      for (let size = 0; size < 300; size++) {
         if (row + size > 300 || col + size > 300) break;
 
         for (let i = 0; i <= size; i++) {
           sum += powerGrid[col + i][row + size];
         }
 
-        for (let j = 0; j <= size + 1; j++) {
+        for (let j = 0; j <= size - 1; j++) {
           sum += powerGrid[col + size][row + j];
         }
 
