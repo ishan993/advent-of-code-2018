@@ -52,27 +52,7 @@ function solveB(initialState: string, goodStates: string[]) {
 
   let result = 0;
   let diff = -1;
-  let repeating = false;
   for (let generation = 1; generation <= 50000000000; generation++) {
-    if (repeating) { // After a certain year, we get linear growth
-      result += (diff * (50000000000 - generation + 2));
-      break;
-    }
-
-    const newResult = Object.keys(currentPlantsMap).reduce((acc: number, curr: string) => {
-      if (currentPlantsMap[curr] === '#') acc += Number(curr);
-
-      return acc;
-    }, 0);
-
-    const newDiff = newResult - result;
-    if (diff === newDiff) {
-      repeating = true;
-    }
-
-    result = newResult;
-    diff = newDiff;
-
     let nextPlantsMap: Record<string, string> = {};
     for (let start = lowestPlantIndex - 2; start < highestPlantIndex + 2; start++) {
       let pattern = '';
@@ -91,6 +71,20 @@ function solveB(initialState: string, goodStates: string[]) {
     }
 
     currentPlantsMap = nextPlantsMap;
+
+    const newResult = Object.keys(currentPlantsMap).reduce((acc: number, curr: string) => {
+      if (currentPlantsMap[curr] === '#') acc += Number(curr);
+
+      return acc;
+    }, 0);
+
+    const newDiff = newResult - result;
+    result = newResult;
+    if (diff === newDiff) { // After a certain year, we get linear growth
+      return result += (diff * (50000000000 - generation));
+    }
+
+    diff = newDiff;
   }
 
   return result;
